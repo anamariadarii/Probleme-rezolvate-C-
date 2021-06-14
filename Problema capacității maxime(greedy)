@@ -1,0 +1,50 @@
+#include<stdio.h>
+void prob(int N,float gi[],float pi[],float Gmax)
+{
+    float x=0,profit=0;
+    int i;
+    printf("\n Greutatile si profiturile finale introduse in rucsac \n");
+    for(i=0;i<N;i++)
+    {
+        if(gi[i]>Gmax) break;
+        else
+        {
+            printf("\ngreutatea=%f cu profitul=%f\n",gi[i],pi[i]);
+            profit+=pi[i];
+            Gmax-=gi[i];
+        }
+    }
+
+    if(i<N) x=(Gmax/gi[i])*pi[i];
+    profit+=x;
+    printf("\ngreutatea=%f cu profitul=%f\n",Gmax,x);
+    printf("\n Profitul maxim este %f ",profit);
+}
+int main()
+{
+    float pi[100],gi[100],Gmax,raportul[100],aux;
+    int N,j,i;
+    printf("Cate obiecte sunt:"); scanf("%d",&N);
+    printf("Ce greutati si profituri sunt:\n");
+    for(i=0;i<N;i++)
+    {
+        scanf("%f %f",&gi[i],&pi[i]);
+    }
+    printf("\nCare este capacitatea maxima a rucsacului= "); scanf("%f",&Gmax);
+    for(i=0;i<N;i++) raportul[i]=pi[i]/gi[i];
+    for(i=0;i<N;i++)
+    {
+        for(j=++i;j<N;j++)
+        {
+            if(raportul[i]<raportul[j])
+            {
+               aux=raportul[j]; raportul[j]=raportul[i]; raportul[i]=aux;
+               aux=gi[j]; gi[j]=gi[i]; gi[i]=aux;
+               aux=pi[j]; pi[j]=pi[i]; pi[i]=aux;
+            }
+        }
+    }
+
+    prob(N,gi,pi,Gmax);
+    return(0);
+}
