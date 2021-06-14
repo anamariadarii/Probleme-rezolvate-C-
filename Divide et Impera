@@ -1,0 +1,69 @@
+#include<stdio.h>
+typedef int matrice[10][10];
+void citire(matrice img, int *N)
+{
+	int i,j;
+	printf("numarul de linii (coloane): ");
+	scanf("%d",N);
+	printf("elementele matricei:\n");
+	for(i=0;i<*N;i++)
+		for(j=0;j<*N;j++)
+		{
+			printf("img[%d][%d]= ",i+1,j+1);
+			scanf("%d",&img[i][j]);
+		}
+}
+void afisare(matrice img, int N)
+{
+	int i,j;
+	for(i=0;i<N;i++)
+	{
+		for(j=0;j<N;j++)
+			printf("%d\t",img[i][j]);
+			printf("\n");
+	}
+}
+prob_2(matrice img, int i,int j,int nr_obj,int N)
+{
+
+
+          if(img[i][j]==0)
+              {
+                img[i][j]=nr_obj;
+                prob_2(img,i-1,j,nr_obj,N);
+                prob_2(img,i+1,j,nr_obj,N);
+                prob_2(img,i,j-1,nr_obj,N);
+                prob_2(img,i,j+1,nr_obj,N);
+                prob_2(img,i+1,j+1,nr_obj,N);
+                prob_2(img,i-1,j-1,nr_obj,N);
+                prob_2(img,i+1,j-1,nr_obj,N);
+                prob_2(img,i-1,j+1,nr_obj,N);
+      }
+
+}
+int prob_1(matrice img,int N)
+{
+    int nr_obj=0,i,j;
+    for(i=0;i<N;i++)
+      for(j=0;j<N;j++)
+      {  if(img[i][j]==0){
+          nr_obj=nr_obj+1;
+          prob_2(img,i,j,nr_obj,N);
+
+      }
+      }return nr_obj;
+}
+  void main()
+  {
+      matrice a;
+      int i,j,n;
+      citire(a,&n);
+      printf("\nMatricea initiala este:\n");
+      afisare(a,n);
+      int aux=1;
+      i=n;
+      j=n;
+      prob_1(a,n);
+      printf("Matricea finala este:\n");
+      afisare(a,n);
+  }
