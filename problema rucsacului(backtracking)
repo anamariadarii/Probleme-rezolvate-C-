@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<conio.h>
+int gi[20],pi[20];
+int N,Gmax;
+int aux[20],f_l[20];
+float greutatea_finala,profit_final;
+float conect_vec(int greutate_0,int profit_0,int k)
+{int i;
+int vec_pi=profit_0;
+int vec_gi=greutate_0;
+ for(i=k+1;i<=N;i++)
+ {
+  vec_gi=vec_gi+gi[i];
+  if(vec_gi<Gmax) vec_pi=vec_pi+pi[i];
+  else return (vec_pi+(1-(vec_gi-Gmax)/gi[i])*pi[i]);
+ }
+ return vec_pi;
+}
+void prob_rucsacului(int k,int greutate_0,int profit_0)
+{
+int j;
+ if(greutate_0+gi[k]<=Gmax)
+ {
+  aux[k]=1;
+  if(k<N)
+  prob_rucsacului(k+1,greutate_0+gi[k],profit_0+pi[k]);
+   if((profit_0>pi[k]>profit_final)&&(k==N)){
+profit_final=profit_0+pi[k];
+greutatea_finala=greutate_0+gi[k];
+for(j=1;j<=k;j++) f_l[j]=aux[j];
+  }
+ }
+ if(conect_vec(greutate_0,profit_0,k)>=profit_final)
+ {
+  aux[k]=0;
+  if(k < N) prob_rucsacului(k+1,greutate_0,profit_0);
+  if((profit_0>profit_final)&&(k==N))
+  {
+   profit_final=profit_0;
+   greutatea_finala=greutate_0;
+   for(j=1;j <=N;j++) f_l[j]=aux[j];
+ }
+}
+}
+void main()
+{
+ int i;
+ printf("Cate obiecte sunt:");
+ scanf("%d",&N);
+ for(i=1;i<=N;i++)
+ {
+  printf("\nCe greutati si profituri are obiectul %d= ",i);
+  scanf("%d %d",&gi[i],&pi[i]);
+ }
+ printf("\nCare este capacitatea maxima a rucsacului=");
+ scanf("%d",&Gmax);
+
+ prob_rucsacului(1,0,0);
+
+ printf("\nObiectele alese:");
+ for(i=1;i<=N;i++)
+ {
+  if(f_l[i]==1)printf("\n%d",i);
+ }
+ printf("\n Greutatea finala:%0.1f",greutatea_finala);
+ printf("\nProfitul maxim:%0.1f",profit_final);
+}
